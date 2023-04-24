@@ -1,0 +1,11 @@
+import requests
+url = 'https://www.carmudi.co.id/mobil-dijual/toyota/indonesia?type=used&page_number={i}&page_size=25'
+response = requests.get(url)
+response
+
+## If the answers of response is 200, that means you can scrapping, but if the answer of responses is 403, that two possible.
+## There are only two possible causes:
+
+
+##The URL you are trying to scrape is forbidden, and you need to be authorised to access it.
+##The website detects that you are scraper and returns a 403 HTTP Status Code Forbidden Error as a ban page
