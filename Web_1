@@ -1,0 +1,32 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+books5 = []
+
+for i in range(1,20):
+  url1 = f"https://www.SENSOR.co.id/mobil-dijual/SENSOR/indonesia?type=used&page_number={i}&page_size=25"
+  response1 = requests.get(url1)
+  response1 = response1.content
+  soup = BeautifulSoup(response1, 'html.parser')
+  body = soup.find('body') 
+  main = body.find('main')
+  div = main.find('div', id='classified-listings')
+  div1 = div.find('div', class_='container container--listing cf')
+  div2 = div1.find('div', class_='grid grid--classified')
+  div3 = div2.find('div', class_='listings__fixed-right grid__item palm-one-whole float--right')
+  div4 = div3.find('div', class_='grid')
+  section = div4.find('section', id='classified-listings-result')
+  articles = section.find_all('article', class_='listing listing--card box relative push--top palm-hard js--listing js--multi-lead')
+
+
+
+  for article in articles:
+    title1 = article.find('h2', class_="listing__title epsilon flush").text
+    price = article.find('div', class_="one-whole push-half--bottom").text
+    price = price[4:]
+    books5.append([title1, price])
+df=pd.DataFrame(books5, columns=['title1', 'price'])
+from google.colab import files
+
+df.to_csv('books5.csv', encoding = 'utf-8-sig') 
+files.download('books5.csv')
